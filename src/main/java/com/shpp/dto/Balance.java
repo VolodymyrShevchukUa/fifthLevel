@@ -8,7 +8,6 @@ public class Balance {
     @NotNull
     private Goods goods;
 
-
     public Market getMarket() {
         return market;
     }
@@ -17,6 +16,7 @@ public class Balance {
         this.market = market;
         return this;
     }
+    // не парситься можливо через те що тут білдер
 
     public Goods getGoods() {
         return goods;

@@ -12,4 +12,11 @@ public class Market {
         this.address = address;
         this.name = name;
     }
+
+    public String getAddress() {
+        return address;
+    }
+    public String getName() {
+        return name;
+    }
 }
