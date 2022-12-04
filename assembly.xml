@@ -12,10 +12,20 @@
             <source>${project.build.directory}/${project.artifactId}-${project.version}.jar</source>
         </file>
         <file>
-            <source>config.properties</source> <!-- Звідки бере то що хочемо викинути з проджу -->
+            <source>config.properties</source><!-- Звідки бере то що хочемо викинути з проджу -->
             <filtered>true</filtered>
             <outputDirectory/> <!-- куди кидає, в даному випадку в папку з джаркою то що хочемо викинути з проджу ,
             пусте можна стирати, але хай буде для наглядності-->
+        </file>
+        <file>
+            <source>product.csv</source>
+            <filtered>true</filtered>
+            <outputDirectory/>
+        </file>
+        <file>
+            <source>Markets.txt</source>
+            <filtered>true</filtered>
+            <outputDirectory/>
         </file>
     </files>
     <!--   <dependencySets> -->

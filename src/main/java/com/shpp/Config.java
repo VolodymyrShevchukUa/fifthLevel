@@ -6,8 +6,8 @@ import java.util.Properties;
 
 public class Config {
     private final String URL;
-    private final String PASS;
-    private final String NAME;
+    private final String DB_NAME;
+
 
     public Config() {
         Properties properties = new Properties();
@@ -17,21 +17,15 @@ public class Config {
             throw new RuntimeException(e);
         }
         URL = properties.getProperty("data_base_url");
-        PASS = properties.getProperty("data_base_pass");
-        NAME = properties.getProperty("data_base_name");
+        DB_NAME = properties.getProperty("data_base_name");
     }
 
     public String getURL() {
         return URL;
     }
 
-    public String getPASS() {
-        return PASS;
+
+    public String getDB_NAME() {
+        return DB_NAME;
     }
-
-    public String getNAME() {
-        return NAME;
-    }
-
-
 }
