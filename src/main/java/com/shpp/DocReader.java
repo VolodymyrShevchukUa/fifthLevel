@@ -21,8 +21,8 @@ public class DocReader {
             String[] array;
             while (result != null) {
                 array = result.split(",");
-                list.add(new Goods(array[0],
-                        new Category(array[1]),
+                list.add(new Goods(array[1],
+                        new Category(array[0]),
                         Double.parseDouble(array[2])));
                 result = bufferedReader.readLine();
             }
