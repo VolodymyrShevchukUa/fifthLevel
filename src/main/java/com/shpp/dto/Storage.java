@@ -2,9 +2,8 @@ package com.shpp.dto;
 
 public class Storage {
 
-    private String marketName;
 
-    private String marketAddress;
+    private Market market;
 
     private String goodsName;
 
@@ -16,13 +15,6 @@ public class Storage {
     public Storage(){
     }
 
-    public String getMarketName() {
-        return marketName;
-    }
-
-    public String getMarketAddress() {
-        return marketAddress;
-    }
 
     public String getGoodsName() {
         return goodsName;
@@ -36,13 +28,10 @@ public class Storage {
         return goodsPrice;
     }
 
-    public Storage setMarketName(String marketName) {
-        this.marketName = marketName;
-        return this;
-    }
+    public Market getMarket(){return market;}
 
-    public Storage setMarketAddress(String marketAddress) {
-        this.marketAddress = marketAddress;
+    public Storage setMarket(Market market) {
+        this.market = market;
         return this;
     }
 

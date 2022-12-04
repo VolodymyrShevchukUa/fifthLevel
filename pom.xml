@@ -162,7 +162,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>library</classpathPrefix>
-              <mainClass>shpp.db.Main</mainClass>
+              <mainClass>com.shpp.Main</mainClass>
             </manifest>
           </archive>
         </configuration>
