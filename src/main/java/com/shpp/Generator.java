@@ -88,7 +88,7 @@ public class Generator {
 //        }
         list.add(storageDoc);
 
-        if (list.size() > 50000) {
+        if (list.size() > 20000) {
             mongoCollection.insertMany(list);
             logger.info("{} products has PUTTED", count);
             list.clear();
