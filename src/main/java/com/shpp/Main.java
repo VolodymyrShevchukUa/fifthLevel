@@ -38,12 +38,8 @@ public class Main {
         MongoCollection<Document> collection = mongoDatabase.getCollection("storage");
         logger.info("Start of the program");
         stopWatch.restart();
-   //     main.startGeneration(mongoDatabase);
         try (mongoClient) {
-
-            // треба закривати, як і монго клієнт
             Integer nThreads = Integer.parseInt(args[1]);
-
             ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
             for(int i = nThreads;i>0;i--){
                 executorService.submit(() -> main.startGeneration(mongoDatabase));

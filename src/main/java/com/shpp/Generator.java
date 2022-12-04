@@ -1,11 +1,8 @@
 package com.shpp;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.WriteModel;
 import com.shpp.dto.Balance;
 import com.shpp.dto.Goods;
 import com.shpp.dto.Market;
@@ -39,11 +36,11 @@ public class Generator {
 
     LinkedList<Document> list = new LinkedList<>();
 
-
+//    LinkedList<InsertOneModel> linkedList = new LinkedList<>();
 
 
     public Generator(MongoDatabase mongoDatabase, AtomicInteger count) {
-        this.mongoDatabase = mongoDatabase ;
+        this.mongoDatabase = mongoDatabase;
         this.count = count;
     }
 
@@ -62,9 +59,9 @@ public class Generator {
         stopWatch.restart();
         Stream.generate(Balance::new)
                 .map(g -> g.setGoods(goods.get(random.nextInt(goods.size())))
-                        .setMarket(markets.get(random.nextInt(markets.size())))).limit(MAX_SIZE)
-                .forEach(t -> insertIntoDB(t, storage,collection));
-        if(!list.isEmpty()){
+                        .setMarket(markets.get(random.nextInt(markets.size())))).filter(g -> isValid(g,validator)).limit(MAX_SIZE)
+                .forEach(t -> insertIntoDB(t, storage, collection));
+        if (!list.isEmpty()) {
             collection.insertMany(list);
         }
         factory.close();
@@ -72,25 +69,33 @@ public class Generator {
         logger.info("Finish Generation, Time of generation =:".concat(stopWatch.stop() + "").concat("ms"));
 
     }
-    // Тормозить жостчайше, не понятно чому
 
-    public void insertIntoDB(Balance balance, Storage storage,MongoCollection mongoCollection) {
+
+    public void insertIntoDB(Balance balance, Storage storage, MongoCollection mongoCollection) {
         storage.setGoodsCategory(balance.getGoods().getCategory().getName()).setGoodsName(balance.getGoods().getName())
                 .setGoodsPrice(balance.getGoods().getPrice()).setMarket(balance.getMarket());
-        Document market = new Document("address",storage.getMarket().getAddress()).append("name",storage.getMarket().getName());
-        Document storageDoc =  new Document("market",market)
-                .append("goodsCategory",storage.getGoodsCategory())
-                .append("goodsName",storage.getGoodsName())
-                .append("goodsPrice",storage.getGoodsPrice());
+        Document market = new Document("address", storage.getMarket().getAddress()).append("name", storage.getMarket().getName());
+        Document storageDoc = new Document("market", market)
+                .append("goodsCategory", storage.getGoodsCategory())
+                .append("goodsName", storage.getGoodsName())
+                .append("goodsPrice", storage.getGoodsPrice());
+//        mongoCollection.insertOne(storageDoc);
+
+//        linkedList.add(new InsertOneModel<>(storageDoc));
+//        if(linkedList.size() > 99999){
+//            mongoCollection.bulkWrite(linkedList);
+//            linkedList.clear();
+//        }
         list.add(storageDoc);
-        if(list.size() > 100000){
+
+        if (list.size() > 50000) {
             mongoCollection.insertMany(list);
-            logger.info("{} products has PUTTED",count);
-//         mongoCollection.bulkWrite(list);
+            logger.info("{} products has PUTTED", count);
             list.clear();
         }
-        if(count.addAndGet(1) % 1000 == 0){
-            logger.info("{} products has generated",count);
+
+        if (count.addAndGet(1) % 1000 == 0) {
+            logger.info("{} products has generated", count);
         }
     }
 
