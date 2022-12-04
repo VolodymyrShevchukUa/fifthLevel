@@ -12,7 +12,7 @@ import java.util.List;
 public class DocReader {
 
 
-    public List<Goods> getGoods() {
+    public LinkedList<Goods> getGoods() {
         CsvMapper csvMapper = new CsvMapper();
 
         LinkedList<Goods> list = new LinkedList<>();
