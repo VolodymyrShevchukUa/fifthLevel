@@ -38,6 +38,10 @@ public class Generator {
 
     LinkedList<InsertOneModel<Document>> batch = new LinkedList<>();
 
+    Document market;
+
+    Document storageDoc;
+
 
 
 
@@ -63,9 +67,9 @@ public class Generator {
                 .map(g -> g.setGoods(goods.get(random.nextInt(goods.size())))
                         .setMarket(markets.get(random.nextInt(markets.size())))).filter(g -> isValid(g,validator)).limit(MAX_SIZE)
                 .forEach(t -> insertIntoDB(t, storage, mongoCollection));
-        if (!list.isEmpty()) {
-            mongoCollection.insertMany(list);
-        }
+//        if (!list.isEmpty()) {
+//            mongoCollection.insertMany(list);
+//        }
         factory.close();
         logger.info("Total saved goods {} rps = {}", count, (count.get() / (stopWatch.taken() / 1000d)));
         logger.info("Finish Generation, Time of generation =:".concat(stopWatch.stop() + "").concat("ms"));
@@ -76,9 +80,9 @@ public class Generator {
     public void insertIntoDB(Balance balance, Storage storage, MongoCollection<Document> mongoCollection) {
         storage.setGoodsCategory(balance.getGoods().getCategory().getName()).setGoodsName(balance.getGoods().getName())
                 .setGoodsPrice(balance.getGoods().getPrice()).setMarket(balance.getMarket());
-        Document market = new Document("address", storage.getMarket().getAddress()).append("name", storage.getMarket().getName());
+        market = new Document("address", storage.getMarket().getAddress()).append("name", storage.getMarket().getName());
 
-        Document storageDoc = new Document("market", market)
+        storageDoc = new Document("market", market)
                 .append("goodsCategory", storage.getGoodsCategory())
                 .append("goodsName", storage.getGoodsName())
                 .append("goodsPrice", storage.getGoodsPrice());
@@ -86,23 +90,20 @@ public class Generator {
 
 
         batch.add(new InsertOneModel<>(storageDoc));
-        if((count.incrementAndGet()%1000) == 0){
+        if((count.incrementAndGet()%500) == 0){
             mongoCollection.bulkWrite(batch);
             batch.clear();
+        }
+//
+        if(count.get() % 10000 == 0){
             logger.info("{} products has generated", count);
         }
-//        if (count.addAndGet(1) % 1000 == 0) {
-//            logger.info("{} products has generated", count);
-//        }
-//        if(linkedList.size() >= 500){
-//            mongoCollection.bulkWrite(linkedList);
-//            linkedList.clear();
-//        }
+
 //        list.add(storageDoc);
-//
-//        if (list.size() >= 20000) {
+
+//        if ((count.incrementAndGet() % 10000) == 0) {
 //            mongoCollection.insertMany(list);
-//            logger.info("{} products has PUTTED", count);
+////            logger.info("{} products has PUTTED", count);
 //            list.clear();
 //        }
 
