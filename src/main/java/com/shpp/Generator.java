@@ -24,7 +24,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Generator {
-    private static final int MAX_SIZE = 500000;
+    private static final int MAX_SIZE = 50000;
+    public static final int BATCH_SIZE = 2000;
+    public static final int checked_counter = 10000;
 
     AtomicInteger count;
     private final MongoCollection<Document> mongoCollection;
@@ -41,8 +43,6 @@ public class Generator {
     Document market;
 
     Document storageDoc;
-
-
 
 
     public Generator(MongoCollection<Document> mongoCollection, AtomicInteger count) {
@@ -65,7 +65,7 @@ public class Generator {
         stopWatch.restart();
         Stream.generate(Balance::new)
                 .map(g -> g.setGoods(goods.get(random.nextInt(goods.size())))
-                        .setMarket(markets.get(random.nextInt(markets.size())))).filter(g -> isValid(g,validator)).limit(MAX_SIZE)
+                        .setMarket(markets.get(random.nextInt(markets.size())))).filter(g -> isValid(g, validator)).limit(MAX_SIZE)
                 .forEach(t -> insertIntoDB(t, storage, mongoCollection));
 //        if (!list.isEmpty()) {
 //            mongoCollection.insertMany(list);
@@ -88,24 +88,24 @@ public class Generator {
                 .append("goodsPrice", storage.getGoodsPrice());
 
 
+//        batch.add(new InsertOneModel<>(storageDoc));
+//        if((count.incrementAndGet()% BATCH_SIZE) == 0){
+//            mongoCollection.bulkWrite(batch);
+//            batch.clear();
+//        }
 
-        batch.add(new InsertOneModel<>(storageDoc));
-        if((count.incrementAndGet()%500) == 0){
-            mongoCollection.bulkWrite(batch);
-            batch.clear();
-        }
 //
-        if(count.get() % 10000 == 0){
+        list.add(storageDoc);
+        if ((count.incrementAndGet() % 10000) == 0) {
+            mongoCollection.insertMany(list);
+            list.clear();
+        }
+
+        if(count.get() % checked_counter == 0){
             logger.info("{} products has generated", count);
         }
 
-//        list.add(storageDoc);
 
-//        if ((count.incrementAndGet() % 10000) == 0) {
-//            mongoCollection.insertMany(list);
-////            logger.info("{} products has PUTTED", count);
-//            list.clear();
-//        }
 
 
     }

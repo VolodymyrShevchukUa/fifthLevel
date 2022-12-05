@@ -45,7 +45,7 @@ public class testLocal {
     }
 
     public void test(){
-        database.createCollection("testinsert");
+        //        database.createCollection("testinsert");
         ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger("org.mongodb.driver").setLevel(Level.WARN);
         for (int it = 0; it < iterations; it++) {
             database.drop();
