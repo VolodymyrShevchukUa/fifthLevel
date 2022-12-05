@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Generator {
-    private static final int MAX_SIZE = 50000;
+    private static final int MAX_SIZE = 500000;
     public static final int BATCH_SIZE = 2000;
     public static final int checked_counter = 10000;
 
