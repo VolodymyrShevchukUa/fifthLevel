@@ -88,18 +88,18 @@ public class Generator {
                 .append("goodsPrice", storage.getGoodsPrice());
 
 
-        batch.add(new InsertOneModel<>(storageDoc));
-        if((count.incrementAndGet()% BATCH_SIZE) == 0){
-            mongoCollection.bulkWrite(batch);
-            batch.clear();
-        }
+//        batch.add(new InsertOneModel<>(storageDoc));
+//        if((count.incrementAndGet()% BATCH_SIZE) == 0){
+//            mongoCollection.bulkWrite(batch);
+//            batch.clear();
+//        }
 
 //
-//        list.add(storageDoc);
-//        if ((count.incrementAndGet() % 10000) == 0) {
-//            mongoCollection.insertMany(list);
-//            list.clear();
-//        }
+        list.add(storageDoc);
+        if ((count.incrementAndGet() % 10000) == 0) {
+            mongoCollection.insertMany(list);
+            list.clear();
+        }
 
         if(count.get() % checked_counter == 0){
             logger.info("{} products has generated", count);
