@@ -47,7 +47,7 @@ public class Main {
         logger.info("Start of the program");
         stopWatch.restart();
         main.initCollection();
- //       main.startGeneration();
+
         try {
             int nThreads = Integer.parseInt(args[1]);
             ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
@@ -60,6 +60,7 @@ public class Main {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        main.mongoClient.close();
 //        main.startGeneration();
 //        main.printResult(args[0]);
     }
