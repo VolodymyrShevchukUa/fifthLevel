@@ -24,8 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Generator {
-    private static final int MAX_SIZE = 500000;
-    public static final int BATCH_SIZE = 2000;
+    private static final int MAX_SIZE = 50000;
+    public static final int BATCH_SIZE = 500;
     public static final int checked_counter = 10000;
 
     AtomicInteger count;
@@ -88,18 +88,18 @@ public class Generator {
                 .append("goodsPrice", storage.getGoodsPrice());
 
 
-//        batch.add(new InsertOneModel<>(storageDoc));
-//        if((count.incrementAndGet()% BATCH_SIZE) == 0){
-//            mongoCollection.bulkWrite(batch);
-//            batch.clear();
-//        }
+        batch.add(new InsertOneModel<>(storageDoc));
+        if((count.incrementAndGet()% BATCH_SIZE) == 0){
+            mongoCollection.bulkWrite(batch);
+            batch.clear();
+        }
 
 //
-        list.add(storageDoc);
-        if ((count.incrementAndGet() % 10000) == 0) {
-            mongoCollection.insertMany(list);
-            list.clear();
-        }
+//        list.add(storageDoc);
+//        if ((count.incrementAndGet() % 10000) == 0) {
+//            mongoCollection.insertMany(list);
+//            list.clear();
+//        }
 
         if(count.get() % checked_counter == 0){
             logger.info("{} products has generated", count);
