@@ -25,7 +25,7 @@ public class testLocal {
 
     WriteConcern wc = new WriteConcern(0).withJournal(false);
 
-    String databaseName = "test";
+    String databaseName = "shop";
     String collectionName = "testinsert";
 
     MongoDatabase database = mongoClient.getDatabase(databaseName);
@@ -45,10 +45,10 @@ public class testLocal {
     }
 
     public void test(){
-        //        database.createCollection("testinsert");
+ //       database.createCollection("testinsert");
         ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger("org.mongodb.driver").setLevel(Level.WARN);
         for (int it = 0; it < iterations; it++) {
-            database.drop();
+//            database.drop();
 
             List<InsertOneModel<Document>> docs = new ArrayList<>();
 

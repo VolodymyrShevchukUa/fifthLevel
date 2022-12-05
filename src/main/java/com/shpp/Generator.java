@@ -96,7 +96,7 @@ public class Generator {
 
 //
         list.add(storageDoc);
-        if ((count.incrementAndGet() % 10000) == 0) {
+        if ((count.incrementAndGet() % 20000) == 0) {
             mongoCollection.insertMany(list);
             list.clear();
         }
