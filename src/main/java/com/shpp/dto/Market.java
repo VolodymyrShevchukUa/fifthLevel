@@ -8,7 +8,7 @@ public class Market {
     @NotNull
     private String name;
 
-    public Market(){
+    public Market() {
     }
 
     public Market(String address, String name) {
@@ -19,12 +19,13 @@ public class Market {
     public String getAddress() {
         return address;
     }
-    public String getName() {
-        return name;
-    }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {

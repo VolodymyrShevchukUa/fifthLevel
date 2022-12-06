@@ -11,10 +11,7 @@ import java.util.List;
 
 public class DocReader {
 
-
-    public LinkedList<Goods> getGoods() {
-        CsvMapper csvMapper = new CsvMapper();
-
+    public List<Goods> getGoods() {
         LinkedList<Goods> list = new LinkedList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("product.csv"))) {
             String result = bufferedReader.readLine();
@@ -51,67 +48,5 @@ public class DocReader {
     }
 }
 
-
-//    public static void main(String[] args) {
-//        FileWriter file;
-//        try {
-//            file = new FileWriter("product.csv");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        CsvMapper csvMapper = new CsvMapper();
-//        DocReader docReader = new DocReader();
-//        CsvSchema csvSchema = CsvSchema.builder().build().withHeader();
-//        List<Goods> goods = docReader.getGoods();
-//        String csv;
-//        DocReader.nestedGoods nestedGoods = docReader.new nestedGoods();
-//        LinkedList<nestedGoods> nestedGoods1 = new LinkedList<>();
-////        for (Goods good : goods) {
-////
-////            nestedGoods =  docReader.new nestedGoods().setName(good.getName()).setCategory(good.getCategory().getName()).setPrice(good.getPrice());
-////            nestedGoods1.add(nestedGoods);
-////        }
-//
-//        for (Goods good : goods) {
-//            nestedGoods.setName(good.getName()).setCategory(good.getCategory().getName()).setPrice(good.getPrice());
-//            try {
-//                Object[] obj = new Object[]{
-//                        good.getCategory().getName(),
-//                        good.getName(),
-//                        good.getPrice()
-//                };
-////                csvMapper.configure(JsonGenerator.Feature.IGNORE_UNKNOWN, true);
-//                csv = csvMapper.writeValueAsString(obj);
-//                BufferedWriter bufferedWriter = new BufferedWriter(file);
-//                bufferedWriter.write(csv);
-//                bufferedWriter.flush();
-//                //               File file = new File("product.csv");
-//            } catch (JsonProcessingException e) {
-//                throw new RuntimeException(e);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//    }
-//
-//    public List<Goods> getGoods() {
-//        LinkedList<Goods> list = new LinkedList<>();
-//        try (FileInputStream fileInputStream = new FileInputStream(("test.xlsx"))) {
-//            XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-//            XSSFSheet sheet = workbook.getSheetAt(0);
-//            for (Row row : sheet) {
-//                Iterator<Cell> cellIterator = row.cellIterator();
-//                while (cellIterator.hasNext()) {
-//                    list.add(new Goods(cellIterator.next().getStringCellValue(),
-//                            new Category(cellIterator.next().getStringCellValue()),
-//                            Double.parseDouble(cellIterator.next().getStringCellValue().split(" ")[0].replace(",", "."))));
-//                }
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return list;
-//    }
 
 

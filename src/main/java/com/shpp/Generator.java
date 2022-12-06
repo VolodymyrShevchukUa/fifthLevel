@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Generator {
-    private static final int MAX_SIZE = 50000;
+    private static final int MAX_SIZE = 250000;
     public static final int BATCH_SIZE = 500;
     public static final int checked_counter = 10000;
 
@@ -36,7 +36,7 @@ public class Generator {
 
     Logger logger = LoggerFactory.getLogger(Generator.class);
 
-    LinkedList<Document> list = new LinkedList<>();
+    LinkedList<Document> documents = new LinkedList<>();
 
     LinkedList<InsertOneModel<Document>> batch = new LinkedList<>();
 
@@ -95,19 +95,14 @@ public class Generator {
 //        }
 
 //
-        list.add(storageDoc);
+        documents.add(storageDoc);
         if ((count.incrementAndGet() % 20000) == 0) {
-            mongoCollection.insertMany(list);
-            list.clear();
+            mongoCollection.insertMany(documents);
+            documents.clear();
         }
-
-        if(count.get() % checked_counter == 0){
+        if (count.get() % checked_counter == 0) {
             logger.info("{} products has generated", count);
         }
-
-
-
-
     }
 
     public boolean isValid(Balance balance, Validator validator) {
@@ -117,24 +112,6 @@ public class Generator {
     }
 }
 
-
-//        String json;
-//        try {
-//            json = objectMapper.writeValueAsString(storage);
-//            mongoCollection.insertOne(Document.parse(json));
-//            mongoCollection.insertOne(new Document().append("market",
-//                    new Document("address",storage.getMarket().getAddress()).append("name",storage.getMarket().getName())));
-//            list.add(Document.parse(json));
-//            if(list.size() == 10000){
-//                mongoCollection.bulkWrite(list);
-//               mongoCollection.insertMany(list);
-//                list.clear();
-//            }
-
-
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
 
 
 

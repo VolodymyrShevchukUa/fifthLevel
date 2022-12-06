@@ -61,8 +61,6 @@ public class Main {
             throw new RuntimeException(e);
         }
         main.mongoClient.close();
-//        main.startGeneration();
-//        main.printResult(args[0]);
     }
 
     private void initCollection(){
