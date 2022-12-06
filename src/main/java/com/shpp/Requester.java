@@ -14,7 +14,9 @@ import java.util.Arrays;
 
 public class Requester {
 
-    public Market getResult(MongoCollection<Document> collection,String category){
+    public static final String COUNT = "count";
+
+    public Market getResult(MongoCollection<Document> collection, String category){
         Market result;
        result = collection.aggregate(
                 Arrays.asList(
@@ -23,9 +25,9 @@ public class Requester {
                                 Projections.fields(
                                 Projections.include("market"),
                                 Projections.include("goodsCategory")
-                                ,Projections.computed("count",new Document("$add",1)))),
-                        Aggregates.group("$market", Accumulators.sum("count",1)),
-                        Aggregates.sort(new Document("count",-1)), // Вроді робочий варік
+                                ,Projections.computed(COUNT,new Document("$add",1)))),
+                        Aggregates.group("$market", Accumulators.sum(COUNT,1)),
+                        Aggregates.sort(new Document(COUNT,-1)), // Вроді робочий варік
                         Aggregates.limit(1)
                 )
         ).map(this::mapMarket).first();

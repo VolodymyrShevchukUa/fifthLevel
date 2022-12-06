@@ -11,8 +11,7 @@ public class Storage {
 
     private double goodsPrice;
 
-
-    public Storage(){
+    public Storage() {
     }
 
 
@@ -28,7 +27,9 @@ public class Storage {
         return goodsPrice;
     }
 
-    public Market getMarket(){return market;}
+    public Market getMarket() {
+        return market;
+    }
 
     public Storage setMarket(Market market) {
         this.market = market;

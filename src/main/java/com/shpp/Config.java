@@ -7,14 +7,13 @@ import java.util.Properties;
 public class Config {
     private final String URL;
     private final String DB_NAME;
-
     private final String COLLECTION;
 
 
     public Config() {
         Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("config.properties"));
+        try(FileInputStream file = new FileInputStream("config.properties")) {
+            properties.load(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,10 +26,11 @@ public class Config {
         return URL;
     }
 
-
     public String getDB_NAME() {
         return DB_NAME;
     }
 
-    public String getCollection(){return COLLECTION;}
+    public String getCollection() {
+        return COLLECTION;
+    }
 }
