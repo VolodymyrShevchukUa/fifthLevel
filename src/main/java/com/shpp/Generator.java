@@ -24,9 +24,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Generator {
-    private static final int MAX_SIZE = 250000;
+    private final int MAX_SIZE ;
     public static final int BATCH_SIZE = 500;
-    public static final int checked_counter = 10000;
+    public static final int checked_counter = 100;
 
     AtomicInteger count;
     private final MongoCollection<Document> mongoCollection;
@@ -45,9 +45,10 @@ public class Generator {
     Document storageDoc;
 
 
-    public Generator(MongoCollection<Document> mongoCollection, AtomicInteger count) {
+    public Generator(MongoCollection<Document> mongoCollection, AtomicInteger count,int goodsPerThread) {
         this.mongoCollection = mongoCollection;
         this.count = count;
+        MAX_SIZE = goodsPerThread;
     }
 
     public void generate() {
@@ -94,7 +95,7 @@ public class Generator {
 //            batch.clear();
 //        }
 
-//
+////
         documents.add(storageDoc);
         if ((count.incrementAndGet() % 20000) == 0) {
             mongoCollection.insertMany(documents);

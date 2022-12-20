@@ -23,7 +23,7 @@ class GeneratorTest {
 
     AtomicInteger counter = new AtomicInteger(0);
 
-    Generator generator = new Generator(mongoCollection,counter);
+    Generator generator = new Generator(mongoCollection,counter,500000);
 
     Balance balance = new Balance().setGoods(new Goods("Blance", new Category("Пиво"),23.80))
             .setMarket(new Market("ss","Вул. Симоненка"));

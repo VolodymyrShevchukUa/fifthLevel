@@ -37,9 +37,6 @@ public class Main {
     MongoCollection<Document> mongoCollection;
 
 
-
-
-
     public static void main(String[] args) {
         ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger("org.mongodb.driver").setLevel(Level.WARN);
 
@@ -50,9 +47,10 @@ public class Main {
 
         try {
             int nThreads = Integer.parseInt(args[1]);
+            int goodsPerThread = Integer.parseInt(args[2]);
             ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
-            for(int i = nThreads;i>0;i--){
-                executorService.submit(main::startGeneration);
+            for (int i = nThreads; i > 0; i--) {
+                executorService.submit(() -> main.startGeneration(goodsPerThread));
             }
             executorService.shutdown();
             executorService.awaitTermination(30, TimeUnit.MINUTES);
@@ -63,7 +61,7 @@ public class Main {
         main.mongoClient.close();
     }
 
-    private void initCollection(){
+    private void initCollection() {
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(config.getURL()))
                 .build();
@@ -73,8 +71,8 @@ public class Main {
         mongoCollection = mongoDatabase.getCollection(config.getCollection()).withWriteConcern(wc);
     }
 
-    private void startGeneration() {
-        Generator generator = new Generator(mongoCollection, counter);
+    private void startGeneration(int goodsPerThread) {
+        Generator generator = new Generator(mongoCollection, counter, goodsPerThread);
         generator.generate();
     }
 
@@ -85,7 +83,7 @@ public class Main {
         Market market = requester.getResult(mongoCollection, category);
         logger.info("Найбільше товарів категорії ".concat(category).concat(" В магазині ").concat(market.getName())
                 .concat(" За адресою ").concat(market.getAddress()));
-        logger.info("Швидкість запиту становить = : {} ms" ,stopWatch.stop());
+        logger.info("Швидкість запиту становить = : {} ms", stopWatch.stop());
         mongoClient.close();
     }
 }
