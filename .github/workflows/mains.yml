@@ -25,4 +25,4 @@ jobs:
         environment_name: Gptua-env
         version_label: ${{ github.sha }}-test
         region: eu-central-1
-        deployment_package: gpt_ua/target/gpt_ua-0.0.1.jar
+        deployment_package: ./target/gpt_ua-0.0.1.jar
